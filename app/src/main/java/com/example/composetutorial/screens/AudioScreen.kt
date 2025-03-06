@@ -28,7 +28,7 @@ fun AudioScreen(navController: NavController) {
     var hasAudioPermission by remember { mutableStateOf(false) }
     var isRecording by remember { mutableStateOf(false) }
     var mediaRecorder by remember { mutableStateOf<MediaRecorder?>(null) }
-    var recordedFiles by remember { mutableStateOf(getSavedAudioFiles(context)) } // ✅ Store saved audio files
+    var recordedFiles by remember { mutableStateOf(getSavedAudioFiles(context)) }
     var currentlyPlayingFile by remember { mutableStateOf<String?>(null) }
     var mediaPlayer by remember { mutableStateOf<MediaPlayer?>(null) }
 
@@ -75,7 +75,7 @@ fun AudioScreen(navController: NavController) {
                             }
                             isRecording = false
                         } else {
-                            mediaRecorder = startRecording(context) // ✅ Store MediaRecorder instance
+                            mediaRecorder = startRecording(context)
                             isRecording = true
                         }
                     }
@@ -105,7 +105,7 @@ fun AudioScreen(navController: NavController) {
                                 mediaPlayer?.stop()
                                 mediaPlayer?.release()
                                 mediaPlayer = null
-                                currentlyPlayingFile = null
+                                currentlyPlayingFile = null // 🔥 Reset playing state
                             } else {
                                 mediaPlayer?.stop()
                                 mediaPlayer?.release()
@@ -113,6 +113,13 @@ fun AudioScreen(navController: NavController) {
                                     setDataSource(file.absolutePath)
                                     prepare()
                                     start()
+
+                                    // 🔥 Fix: When playback finishes, update UI back to "Play"
+                                    setOnCompletionListener {
+                                        currentlyPlayingFile = null // 🔥 Resets the button state
+                                        mediaPlayer?.release()
+                                        mediaPlayer = null
+                                    }
                                 }
                                 currentlyPlayingFile = file.absolutePath
                             }
