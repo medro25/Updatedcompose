@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ComposeTutorial</string>
+    <string name="google_maps_key">AIzaSyA-8tsrVkktVwVz1ctg8hLXFmE-YpHQF6I</string>
+
 </resources>

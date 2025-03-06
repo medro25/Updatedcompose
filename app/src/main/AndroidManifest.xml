@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- ✅ Internet Permission for Google Maps & APIs -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Added this line -->
 
+    <!-- ✅ Location Permissions for Map Functionality -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Added this line -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Added this line -->
+
+    <!-- ✅ Foreground Service Permission for Location Updates -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- ✅ Camera Permission for Taking Photos -->
+    <!-- ✅ Camera Permission -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- ✅ Declare that the app uses the camera -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- ✅ Microphone Permission for Recording Audio -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Added this line -->
+
+    <!-- ✅ Notification Permission (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:targetApi="33"/> <!-- Added this line -->
+    <!-- 🔥 ADDED: File Read/Write Permissions for Saving Photos -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 🔥 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 🔥 -->
+
+    <!-- 🔥 ADDED: Ensure Camera Intent Works Properly -->
+    <queries> <!-- 🔥 -->
+        <intent> <!-- 🔥 -->
+            <action android:name="android.media.action.IMAGE_CAPTURE" /> <!-- 🔥 -->
+        </intent> <!-- 🔥 -->
+    </queries> <!-- 🔥 -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,7 +41,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ComposeTutorial"
+
         tools:targetApi="31">
+        <!-- ✅ Google Maps API Key Integration -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.composetutorial.provider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

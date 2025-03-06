@@ -60,12 +60,14 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.2") // ✅ Keep latest version
     implementation("androidx.navigation:navigation-compose:2.6.0") // ✅ Navigation
 
-    implementation("androidx.compose.material3:material3:1.2.0")
+
 
     // ✅ Room Database (No duplicates)
     implementation("androidx.room:room-runtime:2.6.1") // ✅ Keep latest version
     kapt("androidx.room:room-compiler:2.6.1") // ✅ Required for Room annotations
     implementation("androidx.room:room-ktx:2.6.1") // ✅ Room KTX extension
+
+
 
     // ✅ Data Storage
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -81,4 +83,18 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // ✅ Other Dependencies
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
+    implementation("androidx.core:core-ktx:1.12.0") // ✅ Ensure latest version
+
+// Map Dependecies
+
+        implementation("com.google.android.gms:play-services-maps:18.2.0")
+        implementation("com.google.maps.android:maps-compose:2.11.2") // Google Maps in Compose
+
+
 }
+
+
