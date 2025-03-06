@@ -34,7 +34,7 @@ fun MapScreen(navController: NavController) {
         topBar = {
             Column {
                 TopAppBar(title = { Text("Map Screen") })
-                SearchBar(context = context) { location -> // ✅ Search Box now at the top
+                SearchBar(context = context) { location -> //    Search Box now at the top
                     val newLatLng = getLatLngFromAddress(context, location)
                     if (newLatLng != null) {
                         mapPosition = newLatLng
@@ -54,7 +54,7 @@ fun MapScreen(navController: NavController) {
                 cameraPositionState = cameraPositionState
             ) {
                 Marker(
-                    state = rememberMarkerState(position = mapPosition), // ✅ Fixed Marker State
+                    state = rememberMarkerState(position = mapPosition), //    Fixed Marker State
                     title = "Selected Location",
                     snippet = "Tap to select"
                 )
@@ -68,7 +68,7 @@ fun MapScreen(navController: NavController) {
 fun SearchBar(context: Context, onSearch: (String) -> Unit) {
     var searchText by remember { mutableStateOf("") }
 
-    OutlinedTextField( // ✅ Cleaner UI
+    OutlinedTextField( //    Cleaner UI
         value = searchText,
         onValueChange = { searchText = it },
         label = { Text("Search Location") },
@@ -79,7 +79,7 @@ fun SearchBar(context: Context, onSearch: (String) -> Unit) {
         }),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp) // ✅ Proper padding to separate from top bar
+            .padding(16.dp) //    Proper padding to separate from top bar
     )
 }
 

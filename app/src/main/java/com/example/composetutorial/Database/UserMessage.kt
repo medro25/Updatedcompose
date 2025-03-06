@@ -8,5 +8,5 @@ data class UserMessage(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val username: String,
     val message: String,
-    val profileImage: String // 🔥 Now storing absolute file path instead of URI
+    val profileImage: String //   Now storing absolute file path instead of URI
 )

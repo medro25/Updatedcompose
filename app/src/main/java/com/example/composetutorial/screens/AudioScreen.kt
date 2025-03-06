@@ -32,14 +32,14 @@ fun AudioScreen(navController: NavController) {
     var currentlyPlayingFile by remember { mutableStateOf<String?>(null) }
     var mediaPlayer by remember { mutableStateOf<MediaPlayer?>(null) }
 
-    // ✅ Request audio recording permission
+    //    Request audio recording permission
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         hasAudioPermission = isGranted
     }
 
-    // ✅ Check permission on screen load
+    //    Check permission on screen load
     LaunchedEffect(Unit) {
         hasAudioPermission = ContextCompat.checkSelfPermission(
             context, Manifest.permission.RECORD_AUDIO
@@ -71,7 +71,7 @@ fun AudioScreen(navController: NavController) {
                             mediaRecorder?.let {
                                 stopRecording(it)
                                 mediaRecorder = null
-                                recordedFiles = getSavedAudioFiles(context) // ✅ Refresh the file list
+                                recordedFiles = getSavedAudioFiles(context) //    Refresh the file list
                             }
                             isRecording = false
                         } else {
@@ -105,7 +105,7 @@ fun AudioScreen(navController: NavController) {
                                 mediaPlayer?.stop()
                                 mediaPlayer?.release()
                                 mediaPlayer = null
-                                currentlyPlayingFile = null // 🔥 Reset playing state
+                                currentlyPlayingFile = null //   Reset playing state
                             } else {
                                 mediaPlayer?.stop()
                                 mediaPlayer?.release()
@@ -114,9 +114,9 @@ fun AudioScreen(navController: NavController) {
                                     prepare()
                                     start()
 
-                                    // 🔥 Fix: When playback finishes, update UI back to "Play"
+                                    //   Fix: When playback finishes, update UI back to "Play"
                                     setOnCompletionListener {
-                                        currentlyPlayingFile = null // 🔥 Resets the button state
+                                        currentlyPlayingFile = null //   Resets the button state
                                         mediaPlayer?.release()
                                         mediaPlayer = null
                                     }
@@ -139,7 +139,7 @@ fun AudioScreen(navController: NavController) {
     }
 }
 
-// ✅ Function to start recording
+//    Function to start recording
 fun startRecording(context: Context): MediaRecorder {
     val audioFile = File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), "recording_${System.currentTimeMillis()}.mp3")
     val mediaRecorder = MediaRecorder().apply {
@@ -153,7 +153,7 @@ fun startRecording(context: Context): MediaRecorder {
     return mediaRecorder
 }
 
-// ✅ Function to stop recording safely
+//    Function to stop recording safely
 fun stopRecording(mediaRecorder: MediaRecorder) {
     try {
         mediaRecorder.stop()
@@ -163,7 +163,7 @@ fun stopRecording(mediaRecorder: MediaRecorder) {
     }
 }
 
-// ✅ Function to get saved audio files
+//    Function to get saved audio files
 fun getSavedAudioFiles(context: Context): List<File> {
     val directory = context.getExternalFilesDir(Environment.DIRECTORY_MUSIC)
     return directory?.listFiles()?.filter { it.extension == "mp3" } ?: emptyList()

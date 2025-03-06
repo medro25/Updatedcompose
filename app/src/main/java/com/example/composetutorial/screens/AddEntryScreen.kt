@@ -28,13 +28,13 @@ fun AddEntryScreen(navController: NavController, viewModel: UserMessageViewModel
     var username by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-    var selectedImagePath by remember { mutableStateOf<String?>(null) } // 🔥 Added to store the absolute file path
+    var selectedImagePath by remember { mutableStateOf<String?>(null) } //   Added to store the absolute file path
 
     val pickImageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         selectedImageUri = uri
-        selectedImagePath = uri?.let { saveImageToInternalStorage(context, it) } // 🔥 Store the absolute file path
+        selectedImagePath = uri?.let { saveImageToInternalStorage(context, it) } //   Store the absolute file path
     }
 
     Scaffold(
@@ -86,7 +86,7 @@ fun AddEntryScreen(navController: NavController, viewModel: UserMessageViewModel
                             UserMessage(
                                 username = username,
                                 message = message,
-                                profileImage = selectedImagePath!! // 🔥 Now storing absolute file path instead of URI
+                                profileImage = selectedImagePath!! //   Now storing absolute file path instead of URI
                             )
                         )
                         navController.navigate("home")
@@ -99,21 +99,21 @@ fun AddEntryScreen(navController: NavController, viewModel: UserMessageViewModel
     }
 }
 
-// 🔥 Function to Save Image to Internal Storage and Return Absolute Path
+//   Function to Save Image to Internal Storage and Return Absolute Path
 fun saveImageToInternalStorage(context: Context, uri: Uri): String? {
     val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
     val fileName = getFileName(context, uri) ?: return null
-    val file = File(context.filesDir, fileName) // 🔥 Save image in app's internal storage
+    val file = File(context.filesDir, fileName) //   Save image in app's internal storage
 
     inputStream?.use { input ->
         FileOutputStream(file).use { output ->
             input.copyTo(output)
         }
     }
-    return file.absolutePath // 🔥 Return absolute path to be stored in database
+    return file.absolutePath //   Return absolute path to be stored in database
 }
 
-// 🔥 Function to Get File Name from URI
+//   Function to Get File Name from URI
 fun getFileName(context: Context, uri: Uri): String? {
     val cursor = context.contentResolver.query(uri, null, null, null, null)
     return cursor?.use {

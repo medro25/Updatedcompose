@@ -43,7 +43,7 @@ fun HomeScreen(navController: NavController, viewModel: UserMessageViewModel) {
                             modifier = Modifier.padding(16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            val file = File(message.profileImage) // 🔥 Retrieve image from file
+                            val file = File(message.profileImage) //   Retrieve image from file
 
                             if (file.exists()) {
                                 Image(
@@ -52,7 +52,7 @@ fun HomeScreen(navController: NavController, viewModel: UserMessageViewModel) {
                                     modifier = Modifier.size(50.dp)
                                 )
                             } else {
-                                Text("Image not found") // 🔥 Show placeholder if file is missing
+                                Text("Image not found") //   Show placeholder if file is missing
                             }
 
                             Spacer(modifier = Modifier.width(8.dp))

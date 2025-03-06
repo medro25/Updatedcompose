@@ -17,13 +17,13 @@ fun SplashScreen(navController: NavController) {
             navController.navigate("home") {
                 popUpTo("splash") { inclusive = true } // Remove Splash from backstack
             }
-        }, 3000) // Delay of 3 seconds
+        }, 5000) // Delay of 3 seconds
     }
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("Welcome to the App! 🎉", style = MaterialTheme.typography.headlineLarge)
+        Text("Welcome Back! ", style = MaterialTheme.typography.headlineLarge)
     }
 }

@@ -23,24 +23,24 @@ import coil.compose.rememberAsyncImagePainter
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import com.google.accompanist.flowlayout.FlowRow // 🔥 Added FlowRow to wrap images when needed
+import com.google.accompanist.flowlayout.FlowRow //   Added FlowRow to wrap images when needed
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun CameraScreen(navController: NavController) {
     val context = LocalContext.current
     var hasCameraPermission by remember { mutableStateOf(false) }
-    var capturedPhotos by remember { mutableStateOf(getSavedImages(context)) } // 🔥 Ensure recomputation
+    var capturedPhotos by remember { mutableStateOf(getSavedImages(context)) } //   Ensure recomputation
     var currentPhotoPath by remember { mutableStateOf<String?>(null) }
 
-    // ✅ Request Camera Permission
+    //    Request Camera Permission
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         hasCameraPermission = isGranted
     }
 
-    // ✅ Check camera permission when screen loads
+    //    Check camera permission when screen loads
     LaunchedEffect(Unit) {
         hasCameraPermission = ContextCompat.checkSelfPermission(
             context, Manifest.permission.CAMERA
@@ -51,17 +51,17 @@ fun CameraScreen(navController: NavController) {
         }
     }
 
-    // ✅ Camera launcher that saves the image
+    //    Camera launcher that saves the image
     val takePictureLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
         if (success && currentPhotoPath != null) {
-            capturedPhotos = getSavedImages(context) // 🔥 Ensure the list is updated
-            println("Updated images: $capturedPhotos") // 🔥 Debugging output
+            capturedPhotos = getSavedImages(context) //   Ensure the list is updated
+            println("Updated images: $capturedPhotos") //   Debugging output
         }
     }
 
-    // ✅ Function to create a file for storing the image
+    //    Function to create a file for storing the image
     fun createImageFile(context: Context): Uri {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -88,8 +88,8 @@ fun CameraScreen(navController: NavController) {
             if (hasCameraPermission) {
                 Button(
                     onClick = {
-                        val photoUri = createImageFile(context) // ✅ Generate file URI
-                        takePictureLauncher.launch(photoUri) // ✅ Capture and save
+                        val photoUri = createImageFile(context) //    Generate file URI
+                        takePictureLauncher.launch(photoUri) //    Capture and save
                     }
                 ) {
                     Text("Open Camera")
@@ -102,20 +102,20 @@ fun CameraScreen(navController: NavController) {
 
             Text("Saved Photos")
 
-            // 🔥 Use FlowRow to display images in multiple lines when needed
+            //   Use FlowRow to display images in multiple lines when needed
             FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                mainAxisSpacing = 8.dp, // 🔥 Adjust spacing between items
-                crossAxisSpacing = 8.dp // 🔥 Adjust spacing between rows
+                mainAxisSpacing = 8.dp, //   Adjust spacing between items
+                crossAxisSpacing = 8.dp //   Adjust spacing between rows
             ) {
                 capturedPhotos.forEach { photoUri ->
                     Image(
                         painter = rememberAsyncImagePainter(photoUri),
                         contentDescription = "Captured Image",
                         modifier = Modifier
-                            .size(80.dp) // 🔥 Reduce size dynamically
+                            .size(80.dp) //   Reduce size dynamically
                             .padding(4.dp)
                     )
                 }
@@ -124,7 +124,7 @@ fun CameraScreen(navController: NavController) {
     }
 }
 
-// ✅ Function to retrieve saved images
+//    Function to retrieve saved images
 fun getSavedImages(context: Context): List<Uri> {
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return storageDir?.listFiles()?.filter { it.extension == "jpg" }?.map {
