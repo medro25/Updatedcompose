@@ -93,8 +93,8 @@ dependencies {
 
         implementation("com.google.android.gms:play-services-maps:18.2.0")
         implementation("com.google.maps.android:maps-compose:2.11.2") // Google Maps in Compose
-
-
+// FlowRow
+       implementation ("com.google.accompanist:accompanist-flowlayout:0.28.0")
 }
 
 

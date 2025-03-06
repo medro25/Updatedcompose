@@ -9,7 +9,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,13 +23,14 @@ import coil.compose.rememberAsyncImagePainter
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.accompanist.flowlayout.FlowRow // 🔥 Added FlowRow to wrap images when needed
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun CameraScreen(navController: NavController) {
     val context = LocalContext.current
     var hasCameraPermission by remember { mutableStateOf(false) }
-    var capturedPhotos by remember { mutableStateOf(getSavedImages(context)) }
+    var capturedPhotos by remember { mutableStateOf(getSavedImages(context)) } // 🔥 Ensure recomputation
     var currentPhotoPath by remember { mutableStateOf<String?>(null) }
 
     // ✅ Request Camera Permission
@@ -56,7 +56,8 @@ fun CameraScreen(navController: NavController) {
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
         if (success && currentPhotoPath != null) {
-            capturedPhotos = getSavedImages(context) // ✅ Refresh list after capture
+            capturedPhotos = getSavedImages(context) // 🔥 Ensure the list is updated
+            println("Updated images: $capturedPhotos") // 🔥 Debugging output
         }
     }
 
@@ -101,26 +102,22 @@ fun CameraScreen(navController: NavController) {
 
             Text("Saved Photos")
 
-            // ✅ Ensuring LazyColumn takes remaining space and is fully scrollable
-            Column(
+            // 🔥 Use FlowRow to display images in multiple lines when needed
+            FlowRow(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                mainAxisSpacing = 8.dp, // 🔥 Adjust spacing between items
+                crossAxisSpacing = 8.dp // 🔥 Adjust spacing between rows
             ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .weight(1f) // ✅ Allows scrolling and takes up available space
-                        .fillMaxSize()
-                ) {
-                    items(capturedPhotos) { photoUri ->
-                        Image(
-                            painter = rememberAsyncImagePainter(photoUri),
-                            contentDescription = "Captured Image",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .padding(8.dp)
-                        )
-                    }
+                capturedPhotos.forEach { photoUri ->
+                    Image(
+                        painter = rememberAsyncImagePainter(photoUri),
+                        contentDescription = "Captured Image",
+                        modifier = Modifier
+                            .size(80.dp) // 🔥 Reduce size dynamically
+                            .padding(4.dp)
+                    )
                 }
             }
         }

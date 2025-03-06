@@ -1,6 +1,8 @@
 package com.example.composetutorial.screens
 
+import android.content.Context
 import android.net.Uri
+import android.provider.OpenableColumns
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -15,6 +17,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.composetutorial.Database.UserMessage
 import com.example.composetutorial.viewmodel.UserMessageViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,12 +28,13 @@ fun AddEntryScreen(navController: NavController, viewModel: UserMessageViewModel
     var username by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+    var selectedImagePath by remember { mutableStateOf<String?>(null) } // 🔥 Added to store the absolute file path
 
-    // Image Picker
     val pickImageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         selectedImageUri = uri
+        selectedImagePath = uri?.let { saveImageToInternalStorage(context, it) } // 🔥 Store the absolute file path
     }
 
     Scaffold(
@@ -75,20 +81,43 @@ fun AddEntryScreen(navController: NavController, viewModel: UserMessageViewModel
 
             Button(
                 onClick = {
-                    if (username.isNotBlank() && message.isNotBlank()) {
+                    if (username.isNotBlank() && message.isNotBlank() && selectedImagePath != null) {
                         viewModel.insertMessage(
                             UserMessage(
                                 username = username,
                                 message = message,
-                                profileImage = selectedImageUri.toString() // Store image URI
+                                profileImage = selectedImagePath!! // 🔥 Now storing absolute file path instead of URI
                             )
                         )
-                        navController.navigate("home") // Navigate back after saving
+                        navController.navigate("home")
                     }
                 }
             ) {
                 Text("Save")
             }
         }
+    }
+}
+
+// 🔥 Function to Save Image to Internal Storage and Return Absolute Path
+fun saveImageToInternalStorage(context: Context, uri: Uri): String? {
+    val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+    val fileName = getFileName(context, uri) ?: return null
+    val file = File(context.filesDir, fileName) // 🔥 Save image in app's internal storage
+
+    inputStream?.use { input ->
+        FileOutputStream(file).use { output ->
+            input.copyTo(output)
+        }
+    }
+    return file.absolutePath // 🔥 Return absolute path to be stored in database
+}
+
+// 🔥 Function to Get File Name from URI
+fun getFileName(context: Context, uri: Uri): String? {
+    val cursor = context.contentResolver.query(uri, null, null, null, null)
+    return cursor?.use {
+        it.moveToFirst()
+        it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
     }
 }
