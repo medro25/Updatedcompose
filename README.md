@@ -41,35 +41,6 @@ This is a **Jetpack Compose Android application** that implements various functi
 
 ---
 
-
-## 📂 Project Structure
-
-```
-📦 **com.example.composetutorial**
-├── 📂 **Database**  
-│   ├── 📜 AppDatabase.kt             - Room Database setup  
-│   ├── 📜 UserMessage.kt             - Data model  
-│   ├── 📜 UserMessageDao.kt          - Data access object (DAO)  
-│   ├── 📜 UserMessageRepository.kt   - Repository layer  
-│  
-├── 📂 **viewmodel**  
-│   ├── 📜 UserMessageViewModel.kt    - ViewModel for managing database operations  
-│  
-├── 📂 **screens**  
-│   ├── 📜 HomeScreen.kt              - Displays stored messages  
-│   ├── 📜 AddEntryScreen.kt          - Allows adding new messages with images  
-│   ├── 📜 CameraScreen.kt            - Handles camera functionality  
-│   ├── 📜 AudioScreen.kt             - Handles audio recording and playback  
-│   ├── 📜 MapScreen.kt               - Displays Google Maps  
-│   ├── 📜 SplashScreen.kt            - Displays splash screen  
-│  
-├── 📜 **MainApp.kt**                 - Handles navigation and app structure  
-├── 📜 **MainActivity.kt**            - Entry point for the app  
-├── 📜 **BottomNavigationBar.kt**     - Bottom navigation bar  
-```
-
-
-
 ---
 
 ## 🛠️ Tech Stack
