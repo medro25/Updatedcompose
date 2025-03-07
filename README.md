@@ -60,6 +60,27 @@ This is a **Jetpack Compose Android application** that implements various functi
 1. **Clone the repository**:
    ```sh
    git clone https://github.com/medro25/Updatedcompose.git
+   <img width="347" alt="image" src="https://github.com/user-attachments/assets/1f94cdd8-3e39-4c12-960f-4ba94d5e6729" />
+
+
+
+## 🏗️ Screenshots
+
+<img src="https://github.com/user-attachments/assets/d4b9bbe9-f582-4894-8fb3-97c45d636e99" width="300"/>
+
+<img src="https://github.com/user-attachments/assets/1f94cdd8-3e39-4c12-960f-4ba94d5e6729" width="300"/>
+
+<img src="https://github.com/user-attachments/assets/547edf4e-17ff-449e-a75e-0a6c19c8fe4a" width="300"/>
+
+<img src="https://github.com/user-attachments/assets/34018afa-01be-4d92-a42a-6c0c73bb252b" width="300"/>
+
+<img src="https://github.com/user-attachments/assets/f1ac1690-0047-413a-8410-64ffe16db8bb" width="300"/>
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/17d7e554-e93b-4319-8240-c903083a905a" />
+
+
+
+
+
   
 
 
